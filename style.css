@@ -1,0 +1,71 @@
+* {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  font-size: 20px;
+}
+.toDo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.text {
+  border: 3px solid rgba(111, 0, 255, 0.2);
+  border-radius: 5px;
+  box-shadow: 0px 0px 14px 2px rgba(145, 52, 167, 0.2);
+  width: 300px;
+  height: 50px;
+}
+.text:hover {
+  box-shadow: 0px 0px 14px 6px rgba(145, 52, 167, 0.2);
+}
+.text:focus {
+  outline: none;
+  box-shadow: 0px 0px 14px 6px rgba(145, 52, 167, 0.2);
+}
+#add_button {
+  margin: 0 20px;
+  width: 120px;
+  height: 50px;
+  background-color: rgba(111, 0, 255, 0.2);
+  border-radius: 5px;
+  border: none;
+  box-shadow: 0px 0px 14px 2px rgba(145, 52, 167, 0.2);
+}
+#add_button:hover {
+  cursor: pointer;
+  outline: none;
+  background-color: none;
+  box-shadow: 0px 0px 14px 6px rgba(145, 52, 167, 0.2);
+}
+#add_button:active {
+  background: linear-gradient(90deg, #84fab0 0%, #8fd3f4 100%);
+}
+.typeOfTasks {
+  text-align: center;
+  width: 120px;
+  height: 50px;
+  background-color: rgba(111, 0, 255, 0.2);
+  border: none;
+  appearance: none;
+  box-shadow: 0px 0px 14px 3px rgba(145, 52, 167, 0.2);
+  border-radius: 5px;
+}
+.typeOfTasks:hover {
+  cursor: pointer;
+  box-shadow: 0px 0px 14px 6px rgba(145, 52, 167, 0.2);
+}
+.typeOfTasks:focus {
+  box-shadow: 0px 0px 14px 6px rgba(145, 52, 167, 0.2);
+  outline: none;
+  border: 3px solid rgba(111, 0, 255, 0.2);
+}
+.task {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.checkbox {
+    width: 30px;
+    height: 30px;
+}
