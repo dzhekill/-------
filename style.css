@@ -6,9 +6,9 @@
 .toDo {
   display: flex;
   justify-content: center;
-  align-items: center;
 }
 .text {
+  padding-left: 15px;
   border: 3px solid rgba(111, 0, 255, 0.2);
   border-radius: 5px;
   box-shadow: 0px 0px 14px 2px rgba(145, 52, 167, 0.2);
@@ -23,11 +23,16 @@
   box-shadow: 0px 0px 14px 6px rgba(145, 52, 167, 0.2);
 }
 #add_button {
-  margin: 0 20px;
-  width: 120px;
-  height: 50px;
+  position: relative;
+  top: 3px;
+  left: -55px;
+  color: white;
+  font-size: 30px;
+  padding: 0;
+  width: 52px;
+  height: 52px;
   background-color: rgba(111, 0, 255, 0.2);
-  border-radius: 5px;
+
   border: none;
   box-shadow: 0px 0px 14px 2px rgba(145, 52, 167, 0.2);
 }
@@ -43,7 +48,8 @@
 .typeOfTasks {
   text-align: center;
   width: 120px;
-  height: 50px;
+  height: 55px;
+  padding-bottom: 5px;
   background-color: rgba(111, 0, 255, 0.2);
   border: none;
   appearance: none;
@@ -59,13 +65,52 @@
   outline: none;
   border: 3px solid rgba(111, 0, 255, 0.2);
 }
-.task {
+.toDo-list {
+  margin: 20px auto;
+  padding: 0;
+  width: 490px;
+}
+.todo-list-item {
   list-style: none;
+  width: 100%;
+  border-radius: 5px;
+  box-shadow: 0px 0px 14px 2px rgba(145, 52, 167, 0.2);
+}
+.todo-list-item:hover {
+  box-shadow: 0px 0px 14px 6px rgba(145, 52, 167, 0.2);
+}
+.todo-list-item label {
+  display: block;
+  padding: 15px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  user-select: none;
+}
+.todo-list-item span {
   display: flex;
-  justify-content: center;
   align-items: center;
 }
-.checkbox {
-    width: 30px;
-    height: 30px;
+.todo-list-input {
+  display: none;
+}
+.todo-list-input + span::before {
+  content: "";
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  margin-right: 16px;
+  background-color: #ffffff;
+  border: 2px solid rgba(111, 0, 255, 0.2);
+  border-radius: 5px;
+}
+.todo-list-input:checked + span::before {
+  background: linear-gradient(90deg, #84fab0 0%, #8fd3f4 100%);
+  /* background-image: url("check-white.svg"); */
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.todo-list-input:not(:checked):hover + span::before,
+.todo-list-input:not(:checked):focus + span::before {
+  background-color: rgba(111, 0, 255, 0.2);
+  box-shadow: 0px 0px 14px 6px rgba(145, 52, 167, 0.2);
 }
