@@ -1,12 +1,16 @@
-const add_button = document.querySelector("#add_button");
-const text = document.querySelector(".text");
-const shablon = document.getElementById('shablon');
-console.log(shablon);
-const items = document.querySelector(".toDo-list").children;
+const addButton = document.querySelector(".todo-add-button");
+const text = document.querySelector(".todo-text");
+const template = document.querySelector(".template").content;
+const list = document.querySelector(".todo-list");
+const items = list.children;
 const checkbox = document.querySelector('.todo-list-input');
-add_button.addEventListener("click", function () {
-    let task = shablon.cloneNode(true);
-    console.log(task.querySelector('span'));
+console.log(template);
+
+addButton.addEventListener("click", function () {
+    let task = template.cloneNode(true);
+    let taskText = task.querySelector(".todo-list-text");
+    taskText.textContent = text.value;
+    list.appendChild(task);
     
 });
 checkbox.addEventListener("change",  function(evt) {

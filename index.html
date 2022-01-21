@@ -8,29 +8,29 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <div class="toDo">
-      <input type="text" class="text" placeholder="Добавить задачу" />
-      <input type="submit" value="+" id="add_button" />
-      <select class="typeOfTasks">
+    <div class="todo">
+      <input type="text" class="todo-text" placeholder="Добавить задачу" />
+      <input type="submit" value="+" class="todo-add-button" />
+      <select class="todo-type-button">
         <option selected>Активные</option>
         <option>Выполненые</option>
         <option>Удаленные</option>
       </select>
     </div>
-    <ul class="toDo-list">
+    <ul class="todo-list">
       <li class="todo-list-item">
         <label>
           <input class="todo-list-input" type="checkbox" />
-          <span>Какойто текст</span>
+          <span class="todo-list-text">Какойто текст</span>
         </label>
       </li>
     </ul>
 
-    <template id="shablon">
+    <template class="template">
       <li class="todo-list-item">
         <label>
           <input class="todo-list-input" type="checkbox" />
-          <span>Какойто текст</span>
+          <span class="todo-list-text">Какойто текст</span>
         </label>
       </li>
     </template>
