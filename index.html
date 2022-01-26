@@ -9,20 +9,26 @@
   </head>
   <body>
     <div class="todo">
-      <input type="text" class="todo-text" placeholder="Добавить задачу" />
-      <input type="submit" value="+" class="todo-add-button" />
+      <div class="input-wrapper">
+        <input type="text" class="todo-text" placeholder="Добавить задачу" />
+        <button class="todo-add-button">+</button>
+      </div>
       <select class="todo-type-button">
-        <option selected value ='one'>Активные</option>
-        <option value ='two'>Выполненые</option>
-        <option value ='three'>Архив</option>
+        <option value="active">Активные</option>
+        <option value="done">Выполненые</option>
+        <option value="archive">Архив</option>
       </select>
     </div>
     <ul class="todo-list">
       <li class="todo-list-item">
         <label>
           <input class="todo-list-input" type="checkbox" />
-          <span class="todo-list-text">Какойто текст</span>
+          <span class="todo-list-text"> Какойто текст </span>
         </label>
+        <div class="icons">
+          <i class="far fa-check-circle done"></i>
+          <i class="far fa-file-archive archive"></i>
+        </div>
       </li>
     </ul>
 
@@ -30,11 +36,19 @@
       <li class="todo-list-item">
         <label>
           <input class="todo-list-input" type="checkbox" />
-          <span class="todo-list-text" >Какойто текст</span>
+          <span class="todo-list-text"> Какойто текст </span>
         </label>
+        <div class="icons">
+          <i class="far fa-check-circle done"></i>
+          <i class="far fa-file-archive archive"></i>
+        </div>
       </li>
     </template>
 
     <script src="app.js"></script>
+    <script
+      src="https://kit.fontawesome.com/f2d93266b1.js"
+      crossorigin="anonymous"
+    ></script>
   </body>
 </html>
