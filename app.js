@@ -9,7 +9,6 @@ const typeButton = document.querySelector(".todo-type-button");
 
 let typeOfTasks = {
   active: [],
-  notFullyDone: [],
   done: ["Какаято лютая хуйня 3", "asdfaseh"],
   archive: [
     { text: "Какаято лютая хуйня 1", type: "done" },
@@ -23,34 +22,62 @@ let taskMaker = function (texts) {
   let taskText = task.querySelector(".todo-list-text");
   taskText.textContent = texts;
   archiveButtonListener(task);
+  checkboxEventListener(task);
+  backTaskButton(task);
   list.appendChild(task);
+};
+let checkboxEventListener = function (task) {
+  let checkbox = task.querySelector(".todo-list-input");
+  let taskText = task.querySelector(".todo-list-text");
+  checkbox.addEventListener("click", function () {
+    if (checkbox.checked && typeButton.value === "active") {
+      typeOfTasks.done.push(taskText.textContent);
+      typeOfTasks.active.splice(typeOfTasks.active.indexOf(taskText.textContent),1);
+      console.log(typeOfTasks);
+    }
+  });
 };
 
 let archiveButtonListener = function (task) {
   let archiveButton = task.querySelector(".archive");
-  let checkbox = task.querySelector(".todo-list-input");
-  let taskText = task.querySelector(".todo-list-text");
-  if(checkbox.checked) {
-    typeOfTasks.done.push(taskText.textContent);
-    typeOfTasks.active.splice(typeOfTasks.active.indexOf(taskText.textContent),1);
-    console.log(typeOfTasks);
-  }
   archiveButton.addEventListener("click", function (e) {
-    
-    
-    
-    // if (checkbox.checked && typeButton.value === "active") {
-    //   typeOfTasks.archive.push({ text: taskText.textContent, type: "active" });
-    //   typeOfTasks.active.splice(typeOfTasks.active.indexOf(taskText.textContent),1);
-    //   console.log(typeOfTasks);
-    // }
-    // if (checkbox.checked && typeButton.value === "done") {
-    //   typeOfTasks.archive.push({ text: taskText.textContent, type: "done" });
-    //   typeOfTasks.done.splice(typeOfTasks.done.indexOf(taskText.textContent),1);
-    //   console.log(typeOfTasks);
-    // }
+    let checkbox = task.querySelector(".todo-list-input");
+    let taskText = task.querySelector(".todo-list-text");
+    if (checkbox.checked && typeButton.value === "active") {
+      typeOfTasks.archive.push({ text: taskText.textContent, type: "active" });
+      typeOfTasks.active.splice(typeOfTasks.active.indexOf(taskText.textContent),1);
+      typeOfTasks.done.splice(typeOfTasks.done.indexOf(taskText.textContent),1);
+      console.log(typeOfTasks);
+    }
+    if (checkbox.checked && typeButton.value === "done") {
+      typeOfTasks.archive.push({ text: taskText.textContent, type: "done" });
+      typeOfTasks.done.splice(typeOfTasks.done.indexOf(taskText.textContent),1);
+      console.log(typeOfTasks);
+    }
   });
 };
+
+let backTaskButton = function(task){
+  let activeButton = task.querySelector(".done");
+  let taskText = task.querySelector(".todo-list-text");
+  activeButton.addEventListener('click', function(){
+      if(typeOfTasks.archive.find(item => item.text == taskText.textContent).type === 'done'){
+        typeOfTasks.done.push(taskText.textContent);
+        typeOfTasks.archive.splice(typeOfTasks.archive.indexOf(taskText.textContent),1)
+      }
+      if(typeOfTasks.archive.find(item => item.text == taskText.textContent).type === 'active'){
+        typeOfTasks.active.push(taskText.textContent);
+        typeOfTasks.archive.splice(typeOfTasks.archive.indexOf(taskText.textContent),1)
+      }
+      // if()
+      // typeOfTasks.active.push(taskText.textContent);
+      // console.log(typeOfTasks);
+      // if(typeOfTasks.archive.type === 'done')
+      // typeOfTasks.done.push(taskText.textContent);
+      // console.log(typeOfTasks);
+    })
+  };
+
 
 typeButton.addEventListener("change", function () {
   list.innerHTML = "";
@@ -68,7 +95,10 @@ typeButton.addEventListener("change", function () {
     typeOfTasks.archive.forEach((item) => {
       taskMaker(item.text);
       let activeButton = document.querySelectorAll(".done");
-      activeButton.forEach((item => {item.style.display= 'inline-block';}))
+      activeButton.forEach((item) => {
+        item.style.display = "inline-block";
+      });
+      
     });
   }
 });

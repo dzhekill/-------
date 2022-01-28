@@ -105,6 +105,7 @@
   display: none;
 }
 span::before {
+  flex-shrink:0;
   content: "";
   display: inline-block;
   width: 16px;
