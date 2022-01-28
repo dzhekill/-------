@@ -130,6 +130,9 @@ label:hover:before {
 .icons {
   margin-right: 20px;
 }
+.icons .done {
+  display: none;
+}
 i:last-child {
   margin-left: 10px;
 }
