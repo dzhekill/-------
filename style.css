@@ -134,6 +134,9 @@ label:hover:before {
 .icons .done {
   display: none;
 }
+.icons .trash{
+  display: none;
+}
 i:last-child {
   margin-left: 10px;
 }

@@ -9,12 +9,8 @@ const typeButton = document.querySelector(".todo-type-button");
 
 let typeOfTasks = {
   active: [],
-  done: ["Какаято лютая хуйня 3", "asdfaseh"],
-  archive: [
-    { text: "Какаято лютая хуйня 1", type: "done" },
-    { text: "Какаято лютая хуйня 2", type: "done" },
-    { text: "Какаято лютая хуйня 3", type: "done" },
-  ],
+  done: [],
+  archive: [],
 };
 
 let taskMaker = function (texts) {
@@ -24,8 +20,10 @@ let taskMaker = function (texts) {
   archiveButtonListener(task);
   checkboxEventListener(task);
   backTaskButton(task);
+  deleteTaskButton(task);
   list.appendChild(task);
 };
+
 let checkboxEventListener = function (task) {
   let checkbox = task.querySelector(".todo-list-input");
   let taskText = task.querySelector(".todo-list-text");
@@ -45,14 +43,11 @@ let archiveButtonListener = function (task) {
     let taskText = task.querySelector(".todo-list-text");
     if (checkbox.checked && typeButton.value === "active") {
       typeOfTasks.archive.push({ text: taskText.textContent, type: "active" });
-      typeOfTasks.active.splice(typeOfTasks.active.indexOf(taskText.textContent),1);
       typeOfTasks.done.splice(typeOfTasks.done.indexOf(taskText.textContent),1);
-      console.log(typeOfTasks);
     }
     if (checkbox.checked && typeButton.value === "done") {
       typeOfTasks.archive.push({ text: taskText.textContent, type: "done" });
       typeOfTasks.done.splice(typeOfTasks.done.indexOf(taskText.textContent),1);
-      console.log(typeOfTasks);
     }
   });
 };
@@ -69,15 +64,17 @@ let backTaskButton = function(task){
         typeOfTasks.active.push(taskText.textContent);
         typeOfTasks.archive.splice(typeOfTasks.archive.indexOf(taskText.textContent),1)
       }
-      // if()
-      // typeOfTasks.active.push(taskText.textContent);
-      // console.log(typeOfTasks);
-      // if(typeOfTasks.archive.type === 'done')
-      // typeOfTasks.done.push(taskText.textContent);
-      // console.log(typeOfTasks);
     })
   };
 
+let deleteTaskButton = function(task){
+  let trashButton = task.querySelector(".trash");
+  let taskText = task.querySelector(".todo-list-text");
+   trashButton.addEventListener('click', function(){
+    typeOfTasks.archive.splice(typeOfTasks.archive.indexOf(taskText.textContent),1)
+    task.remove();
+   })
+}
 
 typeButton.addEventListener("change", function () {
   list.innerHTML = "";
@@ -89,22 +86,32 @@ typeButton.addEventListener("change", function () {
   if (typeButton.value === "done") {
     typeOfTasks.done.forEach((item) => {
       taskMaker(item);
+      let checkbox = document.querySelectorAll(".todo-list-input");
+      checkbox.forEach((item) => item.checked = true)
     });
   }
   if (typeButton.value === "archive") {
     typeOfTasks.archive.forEach((item) => {
       taskMaker(item.text);
       let activeButton = document.querySelectorAll(".done");
+      let archiveButton = document.querySelectorAll(".archive");
+      let trashButton = document.querySelectorAll(".trash");
+      console.log(trashButton)
       activeButton.forEach((item) => {
         item.style.display = "inline-block";
       });
-      
+      archiveButton.forEach((item) =>{
+        item.style.display = 'none';
+      })
+      trashButton.forEach((item) => {
+        item.style.display = "inline-block";
+      });
     });
   }
 });
 
 addButton.addEventListener("click", function () {
-  if (text.value !== "") {
+  if (text.value !== "" && typeButton.value === "active") {
     taskMaker(text.value);
     typeOfTasks.active.push(text.value);
   }
