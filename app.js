@@ -22,7 +22,10 @@ let taskMaker = function (texts) {
   backTaskButton(task);
   deleteTaskButton(task);
   list.appendChild(task);
+  localStorage.setItem('arr', JSON.stringify(typeOfTasks))
 };
+
+
 
 let checkboxEventListener = function (task) {
   let checkbox = task.querySelector(".todo-list-input");
@@ -31,7 +34,6 @@ let checkboxEventListener = function (task) {
     if (checkbox.checked && typeButton.value === "active") {
       typeOfTasks.done.push(taskText.textContent);
       typeOfTasks.active.splice(typeOfTasks.active.indexOf(taskText.textContent),1);
-      console.log(typeOfTasks);
     }
   });
 };
@@ -93,10 +95,11 @@ typeButton.addEventListener("change", function () {
   if (typeButton.value === "archive") {
     typeOfTasks.archive.forEach((item) => {
       taskMaker(item.text);
+      let checkbox = document.querySelectorAll(".todo-list-input");
       let activeButton = document.querySelectorAll(".done");
       let archiveButton = document.querySelectorAll(".archive");
       let trashButton = document.querySelectorAll(".trash");
-      console.log(trashButton)
+      checkbox.forEach((item) => item.checked = true)
       activeButton.forEach((item) => {
         item.style.display = "inline-block";
       });
@@ -114,16 +117,19 @@ addButton.addEventListener("click", function () {
   if (text.value !== "" && typeButton.value === "active") {
     taskMaker(text.value);
     typeOfTasks.active.push(text.value);
+    localStorage.setItem('arr', JSON.stringify(typeOfTasks))
   }
   text.value = "";
 });
 
-// let addChange = function(item) {
-//     const checkbox = item.querySelector(".todo-list-input");
-//     checkbox.addEventListener("change", function (evt) {
-//         //  evt.target.parentNode.parentNode.remove();
-//         console.log(evt.target.querySelector('.todo-list-item'));
-//         item.remove();
-//       });
-// }
-// addChange(listItem);
+window.onload = function(){
+  let local = localStorage.getItem('arr');
+  let parsed = JSON.parse(local);
+  console.log(parsed)
+  for(let key in parsed){
+    console.log(parsed[key]);
+    console.log(key);
+    parsed[key].forEach(item => typeOfTasks[key].push(item));
+  }
+  typeOfTasks.active.forEach(item => taskMaker(item));
+}
