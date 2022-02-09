@@ -33,12 +33,10 @@ let checkboxEventListener = function (task) {
     if (checkbox.checked && typeButton.value === "active" && typeOfTasks.active.find(item => item == taskText.textContent) ) {
       typeOfTasks.done.push(taskText.textContent);
       typeOfTasks.active.splice(typeOfTasks.active.indexOf(taskText.textContent), 1);
-      console.log(typeOfTasks)
     }
     if (!checkbox.checked && typeButton.value === "active") {
       typeOfTasks.active.push(taskText.textContent);
       typeOfTasks.done.splice(typeOfTasks.done.indexOf(taskText.textContent), 1);
-      console.log(typeOfTasks)
     }
     if (!checkbox.checked && typeButton.value === "done" && typeOfTasks.done.find(item => item == taskText.textContent) ) {
       typeOfTasks.active.push(taskText.textContent);
@@ -74,18 +72,6 @@ let backTaskButton = function (task) {
   let activeButton = task.querySelector(".done");
   let taskText = task.querySelector(".todo-list-text");
   activeButton.addEventListener("click", function () {
-      // typeOfTasks.archive.forEach(function(item){
-      //   if(item.text === taskText.textContent && item.type == 'active'){
-      //     typeOfTasks.active.push(item.text);
-      //     typeOfTasks.archive.splice(typeOfTasks.archive.indexOf(item), 1)
-      //     task.remove()
-      //   }
-      //   if(item.text === taskText.textContent && item.type === 'done'){
-      //     typeOfTasks.done.push(item.text);
-      //     typeOfTasks.archive.splice(typeOfTasks.archive.indexOf(item), 1)
-      //     task.remove()
-      //   }
-      // })
       let oldDoing = typeOfTasks.archive.find(function(item){
         if(item.text === taskText.textContent) {
           if(item.type === 'active') {

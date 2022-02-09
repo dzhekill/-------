@@ -10,10 +10,10 @@
   <body>
     <div class="todo">
       <div class="input-wrapper">
-        <input type="text" class="todo-text" placeholder="Добавить задачу" />
-        <button class="todo-add-button">+</button>
+        <input type="text" class="todo-input_text" placeholder="Добавить задачу" />
+        <button class="todo-add_button">+</button>
       </div>
-      <select class="todo-type-button">
+      <select class="todo-type_button">
         <option value="active">Активные</option>
         <option value="done">Выполненые</option>
         <option value="archive">Архив</option>
@@ -21,12 +21,12 @@
     </div>
     <ul class="todo-list"></ul>
     <template class="template">
-      <li class="todo-list-item">
+      <li class="todo-list_item">
         <label>
-          <input class="todo-list-input" type="checkbox" />
-          <span class="todo-list-text"> Какойто текст </span>
+          <input class="todo-list_checkbox" type="checkbox" />
+          <span class="todo-list_text"> Какойто текст </span>
         </label>
-        <div class="icons">
+        <div class="todo-list_icons">
           <i class="far fa-check-circle done"></i>
           <i class="far fa-file-archive archive"></i>
           <i class="fas fa-trash trash"></i>
@@ -35,9 +35,6 @@
     </template>
     <script src="app1.js"></script>
     <!-- <script src="app.js"></script> -->
-    <script
-      src="https://kit.fontawesome.com/f2d93266b1.js"
-      crossorigin="anonymous"
-    ></script>
+    <script src="https://kit.fontawesome.com/f2d93266b1.js"crossorigin="anonymous"></script>
   </body>
 </html>
