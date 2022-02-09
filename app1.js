@@ -34,7 +34,8 @@ let checkboxEventListener = function (task) {
       if (checkbox.checked && item.id === Number(task.id)) {
         typeOfTasks.done.push(item);
         typeOfTasks.active.splice(typeOfTasks.active.indexOf(item), 1);
-        localStorage.setItem("arrayOfTask", JSON.stringify(typeOfTasks));
+        localStorage.setItem("arrayOfTask", JSON.stringify(typeOfTasks))
+        console.log(typeOfTasks)
       }
     });
     typeOfTasks.done.forEach(function (item) {
@@ -43,11 +44,13 @@ let checkboxEventListener = function (task) {
           typeOfTasks.active.push(item);
           typeOfTasks.done.splice(typeOfTasks.done.indexOf(item), 1);
           localStorage.setItem("arrayOfTask", JSON.stringify(typeOfTasks));
+          console.log(typeOfTasks)
         }
         if (typeButton.value === "done") {
           typeOfTasks.active.push(item);
           typeOfTasks.done.splice(typeOfTasks.done.indexOf(item), 1);
           localStorage.setItem("arrayOfTask", JSON.stringify(typeOfTasks));
+          console.log(typeOfTasks)
         }
       }
     });
@@ -56,6 +59,7 @@ let checkboxEventListener = function (task) {
 
 let archiveButtonListener = function (task) {
   let archiveButton = task.querySelector(".archive");
+  let checkbox = task.querySelector(".todo-list_checkbox");
   archiveButton.addEventListener("click", function () {
     if (typeButton.value === "active") {
       typeOfTasks.active.forEach(function (item) {
@@ -65,6 +69,17 @@ let archiveButtonListener = function (task) {
           task.remove();
           localStorage.setItem("arrayOfTask", JSON.stringify(typeOfTasks));
         }
+        if(checkbox.checked){
+          typeOfTasks.done.forEach(function(item) {
+            if (item.id === Number(task.id)) {
+              typeOfTasks.archive.push({text : item.text, id : item.id, type: 'done'});
+              typeOfTasks.done.splice(typeOfTasks.done.indexOf(item), 1);
+              task.remove();
+              localStorage.setItem("arrayOfTask", JSON.stringify(typeOfTasks));
+          }
+        })
+        }
+
       });
     }
     if(typeButton.value === "done") {
@@ -148,7 +163,6 @@ typeButton.addEventListener("change", function () {
       }
       checkbox.forEach((item) => {
         item.disabled = true;
-        
       });
       activeButton.forEach((item) => {
         item.style.display = "inline-block";
