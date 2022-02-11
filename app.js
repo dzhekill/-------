@@ -1,12 +1,15 @@
-const addButton = document.querySelector(".todo-add-button");
-const text = document.querySelector(".todo-text");
+const addButton = document.querySelector(".button");
+const inputValue = document.querySelector(".input_text");
 const template = document.querySelector(".template").content;
-const listItem = document.querySelector(".todo-list-item");
-const newTemplate = template.querySelector(".todo-list-item");
+const newTemplate = template.querySelector(".todo-list_item");
 const list = document.querySelector(".todo-list");
-const items = list.children;
-const typeButton = document.querySelector(".todo-type-button");
+const typeButton = document.querySelector(".selector");
+let count = 1;
 
+
+const ACTIVE_STATUS = 'active';
+const DONE_STATUS = 'done';
+const ARCHIVE_STATUS = 'archive';
 
 let typeOfTasks = {
   active: [],
@@ -14,161 +17,137 @@ let typeOfTasks = {
   archive: [],
 };
 
-let taskMaker = function (texts) {
+
+
+let taskMaker = function (texts, id, status) {
   let task = newTemplate.cloneNode(true);
-  let taskText = task.querySelector(".todo-list-text");
+  let taskText = task.querySelector(".todo-list_text");
   taskText.textContent = texts;
+  task.id = id;
+  task.dataset.status = status;
   archiveButtonListener(task);
   checkboxEventListener(task);
   backTaskButton(task);
   deleteTaskButton(task);
   list.appendChild(task);
-  localStorage.setItem("arr", JSON.stringify(typeOfTasks));
+  localStorage.setItem("arrayOfTask", JSON.stringify(typeOfTasks));
+
 };
 
 let checkboxEventListener = function (task) {
-  let checkbox = task.querySelector(".todo-list-input");
-  let taskText = task.querySelector(".todo-list-text");
-  checkbox.addEventListener("change", function () {
-    if (checkbox.checked && typeButton.value === "active" && typeOfTasks.active.find(item => item == taskText.textContent) ) {
-      typeOfTasks.done.push(taskText.textContent);
-      typeOfTasks.active.splice(typeOfTasks.active.indexOf(taskText.textContent), 1);
+  let checkbox = task.querySelector('.todo-list_checkbox');
+  let text = task.querySelector(".todo-list_text");
+  checkbox.addEventListener('click', function () {
+    if (checkbox.checked) {
+      typeOfTasks.done.push({ id: Number(task.id), text: text.textContent, status: DONE_STATUS});
+      typeOfTasks.active = typeOfTasks.active.filter((item) => item.id !== Number(task.id));
+      task.dataset.status = DONE_STATUS
     }
-    if (!checkbox.checked && typeButton.value === "active") {
-      typeOfTasks.active.push(taskText.textContent);
-      typeOfTasks.done.splice(typeOfTasks.done.indexOf(taskText.textContent), 1);
+    else {
+      typeOfTasks.active.push({ id: Number(task.id), text: text.textContent, status: ACTIVE_STATUS});
+      typeOfTasks.done = typeOfTasks.done.filter((item) => item.id !== Number(task.id));
     }
-    if (!checkbox.checked && typeButton.value === "done" && typeOfTasks.done.find(item => item == taskText.textContent) ) {
-      typeOfTasks.active.push(taskText.textContent);
-      typeOfTasks.done.splice(typeOfTasks.done.indexOf(taskText.textContent), 1);
-    }
+    localStorage.setItem("arrayOfTask", JSON.stringify(typeOfTasks));
   });
 };
 
 let archiveButtonListener = function (task) {
   let archiveButton = task.querySelector(".archive");
+  let text = task.querySelector(".todo-list_text");
   archiveButton.addEventListener("click", function () {
-    let taskText = task.querySelector(".todo-list-text");
-    let checkbox = task.querySelector(".todo-list-input");
-    if (checkbox.checked && typeButton.value === "active" && typeOfTasks.done.find(item => item == taskText.textContent)) {
-      typeOfTasks.archive.push({ text: taskText.textContent, type: "active" });
-      typeOfTasks.done.splice(typeOfTasks.done.indexOf(taskText.textContent), 1);
-      task.remove();
-    }
-    if (typeButton.value === "active" && typeOfTasks.active.find(item => item == taskText.textContent)) {
-      typeOfTasks.archive.push({ text: taskText.textContent, type: "active" });
-      typeOfTasks.active.splice(typeOfTasks.active.indexOf(taskText.textContent), 1);
-      task.remove();
-    }
-    if (typeButton.value === "done" && typeOfTasks.done.find(item => item == taskText.textContent)) {
-      typeOfTasks.archive.push({ text: taskText.textContent, type: "done" });
-      typeOfTasks.done.splice(typeOfTasks.done.indexOf(taskText.textContent), 1);
-      task.remove();
-    }
+    let status = task.dataset.status;
+    typeOfTasks.archive.push({text : text.textContent, id : Number(task.id), status: status});
+    typeOfTasks[status] =  typeOfTasks[status].filter((item) => item.id !== Number(task.id))
+    task.remove();
+    localStorage.setItem("arrayOfTask", JSON.stringify(typeOfTasks));
   });
 };
 
 let backTaskButton = function (task) {
   let activeButton = task.querySelector(".done");
-  let taskText = task.querySelector(".todo-list-text");
   activeButton.addEventListener("click", function () {
-      let oldDoing = typeOfTasks.archive.find(function(item){
-        if(item.text === taskText.textContent) {
-          if(item.type === 'active') {
-            typeOfTasks.active.push(item.text);
-          }
-          if(item.type === 'done') {
-            typeOfTasks.done.push(item.text);
-          }
-          task.remove()
-          return true
+    let oldDoing = typeOfTasks.archive.find(function (item) {
+      if (item.id === Number(task.id)) {
+        if (item.status === "active") {
+          typeOfTasks.active.push({text : item.text, id :item.id, status:ACTIVE_STATUS});
         }
-        return false
-      })
-      typeOfTasks.archive.splice(typeOfTasks.archive.indexOf(oldDoing), 1)
-      localStorage.setItem("arr", JSON.stringify(typeOfTasks));
-    }
-  );
+        if (item.status === "done") {
+          typeOfTasks.done.push({text : item.text, id :item.id, status:DONE_STATUS});
+        }
+        task.remove();
+        return true;
+      }
+      return false;
+    });
+    typeOfTasks.archive.splice(typeOfTasks.archive.indexOf(oldDoing.id), 1);
+    localStorage.setItem("arrayOfTask", JSON.stringify(typeOfTasks));
+  });
 };
-
 
 let deleteTaskButton = function (task) {
   let trashButton = task.querySelector(".trash");
-  let taskText = task.querySelector(".todo-list-text");
   trashButton.addEventListener("click", function () {
-    typeOfTasks.archive.splice(
-      typeOfTasks.archive.indexOf(taskText.textContent),
-      1
-    );
-    task.remove();
-  });
+        typeOfTasks.archive = typeOfTasks.archive.filter((item) => item.id !== Number(task.id))
+        task.remove();
+        localStorage.setItem("arrayOfTask", JSON.stringify(typeOfTasks));
+  })
 };
 
 typeButton.addEventListener("change", function () {
   list.innerHTML = "";
   if (typeButton.value === "active") {
-    text.disabled = false;
+    inputValue.disabled = false;
     addButton.disabled = false;
     typeOfTasks.active.forEach((item) => {
-      taskMaker(item);
+      taskMaker(item.text, item.id, item.status);
     });
   }
   if (typeButton.value === "done") {
-    text.disabled = true;
+    inputValue.disabled = true;
     addButton.disabled = true;
     typeOfTasks.done.forEach((item) => {
-      taskMaker(item);
-      let checkbox = document.querySelectorAll(".todo-list-input");
+      taskMaker(item.text, item.id, item.status);
+      let checkbox = document.querySelectorAll(".todo-list_checkbox");
       checkbox.forEach((item) => (item.checked = true));
     });
   }
   if (typeButton.value === "archive") {
-    text.disabled = true;
+    inputValue.disabled = true;
     addButton.disabled = true;
     typeOfTasks.archive.forEach((item) => {
-      taskMaker(item.text);
-      let checkbox = document.querySelectorAll(".todo-list-input");
-      let activeButton = document.querySelectorAll(".done");
-      let archiveButton = document.querySelectorAll(".archive");
-      let trashButton = document.querySelectorAll(".trash");
-      checkbox.forEach((item) => {
-        item.checked = true;
-        item.disabled = true;
+      taskMaker(item.text, item.id, ARCHIVE_STATUS);
+      let checkbox = document.querySelectorAll(".todo-list_checkbox");
+      checkbox.forEach((item) => item.disabled = true)
+      if(item.status === DONE_STATUS){
+        let checkbox = document.querySelectorAll(".todo-list_checkbox");
+        checkbox.forEach((item) => item.checked = true)
+      }
       });
-      activeButton.forEach((item) => {
-        item.style.display = "inline-block";
-      });
-      archiveButton.forEach((item) => {
-        item.style.display = "none";
-      });
-      trashButton.forEach((item) => {
-        item.style.display = "inline-block";
-      });
-    });
   }
 });
 
-text.addEventListener("keypress", function (e) {
-  if (e.keyCode == "13" && text.value !== "" && typeButton.value === "active") {
-    typeOfTasks.active.push(text.value);
-    taskMaker(text.value);
-    text.value = "";
+let addHandler = function(){
+  typeOfTasks.active.push({ text: inputValue.value, id: count });
+    taskMaker(inputValue.value, count, ACTIVE_STATUS);
+    inputValue.value = "";
+    count++;
+}
+
+inputValue.addEventListener("keypress", function (e) {
+  if (e.keyCode == "13" && inputValue.value !== "" && typeButton.value === "active") {
+    addHandler();
   }
 });
 
-addButton.addEventListener("click", function (e) {
-  if (text.value !== "" && typeButton.value === "active") {
-    typeOfTasks.active.push(text.value);
-    taskMaker(text.value);
+addButton.addEventListener("click", function () {
+  if (inputValue.value !== "" && typeButton.value === "active") {
+    addHandler();
   }
-  text.value = "";
+  
 });
 
 window.onload = function(){
-  let local = localStorage.getItem('arr');
-  let parsed = JSON.parse(local);
-  for(let key in parsed){
-    parsed[key].forEach(item => typeOfTasks[key].push(item));
-  }
-  typeOfTasks.active.forEach(item => taskMaker(item));
+  let storageData = localStorage.getItem('arrayOfTask');
+  typeOfTasks = JSON.parse(storageData) || typeOfTasks;
+  typeOfTasks.active.forEach(item => taskMaker(item.text, item.id, item.status));
 }
