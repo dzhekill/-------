@@ -70,6 +70,22 @@
   outline: none;
   border: 3px solid rgba(111, 0, 255, 0.2);
 }
+.prompt {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+  color: rgba(19, 0, 44, 0.2);
+  font-size: 30px;
+}
+.counter{
+  display: flex;
+  justify-content: center;
+  color: rgba(19, 0, 44, 0.2);
+  font-size: 20px;
+}
+.hidden {
+  display: none;
+}
 .todo-list {
   width: 450px;
   margin: 20px auto;
@@ -105,7 +121,7 @@
   display: none;
 }
 span::before {
-  flex-shrink:0;
+  flex-shrink: 0;
   content: "";
   display: inline-block;
   width: 16px;
@@ -120,7 +136,6 @@ label:hover:before {
 }
 .todo-list_checkbox:checked + span::before {
   background: linear-gradient(90deg, #84fab0 0%, #8fd3f4 100%);
-  /* background-image: url("check-white.svg"); */
   background-repeat: no-repeat;
   background-position: center;
 }
@@ -134,7 +149,7 @@ label:hover:before {
 .todo-list_icons .done {
   display: none;
 }
-.todo-list_icons .trash{
+.todo-list_icons .trash {
   display: none;
 }
 i:last-child {
@@ -150,10 +165,10 @@ i:hover {
   cursor: pointer;
   background: linear-gradient(90deg, #84fab0 0%, #8fd3f4 100%);
 }
-li[data-status="archive"] .done, 
+li[data-status="archive"] .done,
 li[data-status="archive"] .trash {
   display: inline-block;
 }
 li[data-status="archive"] .archive {
-display: none;
+  display: none;
 }
